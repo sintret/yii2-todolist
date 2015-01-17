@@ -3,12 +3,12 @@
         <i class="ion ion-clipboard"></i>
         <h3 class="box-title">To Do List</h3>
         <div class="btn-group pull-right" data-toggle="btn-toggle" >
-            <button type="button" class="btn btn-default btn-sm active"><i class="fa fa-square text-green"></i></button>
-            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-square text-red"></i></button>
+            <button type="button" id="todolistActive" class="btn btn-default btn-sm active"><i class="fa fa-square text-green"></i></button>
+            <button type="button" id="todolistPasive" class="btn btn-default btn-sm"><i class="fa fa-square text-red"></i></button>
         </div>
     </div><!-- /.box-header -->
     <div class="box-body">
-        <ul class="todo-list"></ul>
+        <ul class="todo-list"><?php echo $data;?></ul>
     </div><!-- /.box-body -->
     <div class="box-footer clearfix no-border">
         <button class="btn btn-default pull-right todolist-additem" data-toggle="modal" data-target="#todolistModal"><i class="fa fa-plus"></i> Add item</button>

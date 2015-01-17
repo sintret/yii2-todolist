@@ -17,6 +17,7 @@ use Yii;
 class ToDoList extends \yii\db\ActiveRecord {
 
     public $relations;
+    public static $labels = ['info','danger','warning','success','primary','info','danger','warning','success','primary','info','danger','warning','success','primary',];
 
     /**
      * @inheritdoc
@@ -63,6 +64,38 @@ class ToDoList extends \yii\db\ActiveRecord {
 
     public function records($status = 0) {
         return static::find()->where(['status' => $status])->orderBy('id desc')->all();
+    }
+
+    public function data($status = 0) {
+        $output .='';
+        $models = $this->records($status);
+        $num = 0;
+        if ($models)
+            foreach ($models as $model) {
+                $checked = $model->status == 1 ? "checked" : "";
+
+                $output .='<li>
+                <!-- drag handle -->
+                <span class="handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+                <!-- checkbox -->
+                <input type="checkbox" ' . $checked . ' class="todolistCheck" value="' . $model->id . '" name="list"/>
+                <!-- todo text -->
+                <span class="text">' . $model->title . '</span>
+                <!-- Emphasis label -->
+                <small class="label label-'.self::$labels[$num].'"><i class="fa fa-clock-o"></i>' . \kartik\helpers\Enum::timeElapsed($model->updateDate) . '</small>
+                <!-- General tools such as edit or delete-->
+                <div class="tools">
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
+                </div>
+            </li>';
+                $num++;
+            }
+
+        return $output;
     }
 
 }
