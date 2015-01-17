@@ -3,7 +3,7 @@ yii2 to do list using adminlte template
 
 in controllers :
 
-
+<pre>
 public function actionTodolist() {
         $id = (int)$_POST['id'];
         $title = $_POST['title'];
@@ -27,3 +27,4 @@ public function actionTodolist() {
         }
         
     }
+</pre>
