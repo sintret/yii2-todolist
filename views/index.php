@@ -2,99 +2,40 @@
     <div class="box-header">
         <i class="ion ion-clipboard"></i>
         <h3 class="box-title">To Do List</h3>
-        <div class="btn-group" data-toggle="btn-toggle" >
+        <div class="btn-group pull-right" data-toggle="btn-toggle" >
             <button type="button" class="btn btn-default btn-sm active"><i class="fa fa-square text-green"></i></button>
             <button type="button" class="btn btn-default btn-sm"><i class="fa fa-square text-red"></i></button>
         </div>
     </div><!-- /.box-header -->
     <div class="box-body">
-        <ul class="todo-list">
-            <li>
-                <!-- drag handle -->
-                <span class="handle">
-                    <i class="fa fa-ellipsis-v"></i>
-                    <i class="fa fa-ellipsis-v"></i>
-                </span>
-                <!-- checkbox -->
-                <input type="checkbox" value="" name=""/>
-                <!-- todo text -->
-                <span class="text">Design a nice theme</span>
-                <!-- Emphasis label -->
-                <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
-                <!-- General tools such as edit or delete-->
-                <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                </div>
-            </li>
-            <li>
-                <span class="handle">
-                    <i class="fa fa-ellipsis-v"></i>
-                    <i class="fa fa-ellipsis-v"></i>
-                </span>
-                <input type="checkbox" value="" name=""/>
-                <span class="text">Make the theme responsive</span>
-                <small class="label label-info"><i class="fa fa-clock-o"></i> 4 hours</small>
-                <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                </div>
-            </li>
-            <li>
-                <span class="handle">
-                    <i class="fa fa-ellipsis-v"></i>
-                    <i class="fa fa-ellipsis-v"></i>
-                </span>
-                <input type="checkbox" value="" name=""/>
-                <span class="text">Let theme shine like a star</span>
-                <small class="label label-warning"><i class="fa fa-clock-o"></i> 1 day</small>
-                <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                </div>
-            </li>
-            <li>
-                <span class="handle">
-                    <i class="fa fa-ellipsis-v"></i>
-                    <i class="fa fa-ellipsis-v"></i>
-                </span>
-                <input type="checkbox" value="" name=""/>
-                <span class="text">Let theme shine like a star</span>
-                <small class="label label-success"><i class="fa fa-clock-o"></i> 3 days</small>
-                <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                </div>
-            </li>
-            <li>
-                <span class="handle">
-                    <i class="fa fa-ellipsis-v"></i>
-                    <i class="fa fa-ellipsis-v"></i>
-                </span>
-                <input type="checkbox" value="" name=""/>
-                <span class="text">Check your messages and notifications</span>
-                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1 week</small>
-                <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                </div>
-            </li>
-            <li>
-                <span class="handle">
-                    <i class="fa fa-ellipsis-v"></i>
-                    <i class="fa fa-ellipsis-v"></i>
-                </span>
-                <input type="checkbox" value="" name=""/>
-                <span class="text">Let theme shine like a star</span>
-                <small class="label label-default"><i class="fa fa-clock-o"></i> 1 month</small>
-                <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                </div>
-            </li>
-        </ul>
+        <ul class="todo-list"></ul>
     </div><!-- /.box-body -->
     <div class="box-footer clearfix no-border">
-        <button class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
+        <button class="btn btn-default pull-right todolist-additem" data-toggle="modal" data-target="#todolistModal"><i class="fa fa-plus"></i> Add item</button>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="todolistModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">To Do List</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="todolistTitle" placeholder="Enter title to do list">
+                    </div>                  
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary todolist-save" data-url="<?php echo $url;?>">Save changes</button>
+            </div>
+        </div>
     </div>
 </div>

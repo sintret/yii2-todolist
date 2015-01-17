@@ -3,6 +3,7 @@
 namespace sintret\todolist\models;
 
 use Yii;
+
 //use app\models\User;
 
 /**
@@ -14,6 +15,8 @@ use Yii;
  * @property string $updateDate
  */
 class ToDoList extends \yii\db\ActiveRecord {
+
+    public $relations;
 
     /**
      * @inheritdoc
@@ -33,9 +36,12 @@ class ToDoList extends \yii\db\ActiveRecord {
         ];
     }
 
-//    public function getUser() {
-//        return $this->hasOne(User::className(), ['id' => 'userId']);
-//    }
+    public function getUser() {
+        if (isset($this->relations))
+            return $this->hasOne($this->relations, ['id' => 'userId']);
+        else
+            return $this->hasOne(\app\models\User::className(), ['id' => 'userId']);
+    }
 
     /**
      * @inheritdoc
@@ -55,8 +61,8 @@ class ToDoList extends \yii\db\ActiveRecord {
         return parent::beforeSave($insert);
     }
 
-    public static function records() {
-        return static::find()->orderBy('id desc')->all();
+    public function records($status = 0) {
+        return static::find()->where(['status' => $status])->orderBy('id desc')->all();
     }
 
 }

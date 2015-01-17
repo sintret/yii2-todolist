@@ -26,42 +26,54 @@ class ListView extends Widget {
     public $depends = [
         'yii\web\JqueryAsset',
     ];
-    public $models;
+    public $model;
     public $url;
+    public $relations;
 
     public function init() {
+        if(isset($this->relations)){
+            $this->model = new ToDoList();
+            $this->model->relations=  $this->relations;
+            
+        }
         parent::init();
     }
 
     public function run() {
         parent::init();
         ListJs::register($this->view);
-        $view = $this->getView();
-        $output = '';
-        return $this->renderAjax('index', [
-                    'model' => $model,
+        $models = $this->model->records();
+        return $this->render('index', [
+                    'models' => $models,
+                    'url' => $url,
         ]);
     }
 
     public static function data() {
         $output .='';
-        $models = ToDoList::records();
+        $models = $this->model->records();
         if ($models)
             foreach ($models as $model) {
-                if (isset($model->user->avatarImage)) {
-                    $avatar = $model->user->avatarImage;
-                } else
-                    $avatar = Yii::getAlias("@vendor/sintret/yii2-chat-adminlte/assets/img/avatar.png");
-                $output .= '<div class="item">
-                <img class="online" alt="user image" src="' . $avatar . '">
-                <p class="message">
-                    <a class="name" href="#">
-                        <small class="text-muted pull-right" style="color:green"><i class="fa fa-clock-o"></i> ' . \kartik\helpers\Enum::timeElapsed($model->updateDate) . '</small>
-                        ' . $model->user->username . '
-                    </a>
-                   ' . $model->title . '
-                </p>
-            </div>';
+                $checked = $model->status == 1 ? "checked" : "";
+
+                $output .='<li>
+                <!-- drag handle -->
+                <span class="handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+                <!-- checkbox -->
+                <input type="checkbox" ' . $checked . ' class="todolistCheck" value="' . $model->id . '" name="list"/>
+                <!-- todo text -->
+                <span class="text">' . $model->title . '</span>
+                <!-- Emphasis label -->
+                <small class="label label-danger"><i class="fa fa-clock-o"></i>' . \kartik\helpers\Enum::timeElapsed($model->updateDate) . '</small>
+                <!-- General tools such as edit or delete-->
+                <div class="tools">
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
+                </div>
+            </li>';
             }
 
         return $output;
