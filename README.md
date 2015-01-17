@@ -1,6 +1,17 @@
 # yii2-todolist
 yii2 to do list using adminlte template
 
+in your view , you have to set url and relation for User like this following code :
+
+<pre>
+<?= \sintret\todolist\ListView::widget([
+            'url' => \yii\helpers\Url::to(['/ajax/todolist']),
+            'relations' => app\models\User::className(),
+        ]);
+        ?>
+</pre>
+
+
 in controllers :
 
 <pre>
