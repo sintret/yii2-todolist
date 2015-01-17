@@ -18,6 +18,7 @@ class ListJs extends AssetBundle {
 
     public $sourcePath = '@vendor/sintret/yii2-todolist/assets';
     public $js = [
+        'js/icheck.js',
         'js/todolist.js',
     ];
     public $depends = [
