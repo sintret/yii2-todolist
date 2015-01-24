@@ -25,9 +25,4 @@ class ListJs extends AssetBundle {
         'yii\web\JqueryAsset',
     ];
 
-    public function init() {
-        parent::init();
-        $this->js[] = YII_DEBUG ? 'js/todolist.js' : 'js/todolist.min.js';
-    }
-
 }
