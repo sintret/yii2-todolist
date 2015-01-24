@@ -63,7 +63,7 @@ class ToDoList extends \yii\db\ActiveRecord {
     }
 
     public function records($status = 0) {
-        return static::find()->where(['status' => $status])->orderBy('id desc')->all();
+        return static::find()->where(['status' => $status])->limit(10)->orderBy('id desc')->all();
     }
 
     public function data($status = 0) {
