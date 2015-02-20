@@ -13,11 +13,13 @@ use Yii;
  * @property string $message
  * @property integer $userId
  * @property string $updateDate
+ * @property string $createDate
  */
 class ToDoList extends \yii\db\ActiveRecord {
 
     public $relations;
-    public static $labels = ['info','danger','warning','success','primary','info','danger','warning','success','primary','info','danger','warning','success','primary',];
+    public static $labels = ['info', 'danger', 'warning', 'success', 'primary', 'info', 'danger', 'warning', 'success', 'primary', 'info', 'danger', 'warning', 'success', 'primary',];
+    public $post = [];
 
     /**
      * @inheritdoc
@@ -33,7 +35,7 @@ class ToDoList extends \yii\db\ActiveRecord {
         return [
             [['title'], 'required'],
             [['userId'], 'integer'],
-            [['updateDate', 'params'], 'safe']
+            [['updateDate', 'createDate', 'params'], 'safe']
         ];
     }
 
@@ -41,7 +43,7 @@ class ToDoList extends \yii\db\ActiveRecord {
         if (isset($this->relations))
             return $this->hasOne($this->relations, ['id' => 'userId']);
         else
-            return $this->hasOne(\app\models\User::className(), ['id' => 'userId']);
+            return $this->hasOne(Yii::$app->getUser()->identityClass, ['id' => 'userId']);
     }
 
     /**
@@ -53,11 +55,15 @@ class ToDoList extends \yii\db\ActiveRecord {
             'message' => 'Message',
             'userId' => 'User',
             'updateDate' => 'Update Date',
-            'params' => 'Params'
+            'params' => 'Params',
+            'createDate' => 'Create Date'
         ];
     }
 
     public function beforeSave($insert) {
+        if ($this->isNewRecord) {
+            $this->createDate = date('Y-m-d H:i:s');
+        }
         $this->userId = Yii::$app->user->id;
         return parent::beforeSave($insert);
     }
@@ -66,8 +72,29 @@ class ToDoList extends \yii\db\ActiveRecord {
         return static::find()->where(['status' => $status])->limit(10)->orderBy('id desc')->all();
     }
 
+    public function send() {
+        $post = $this->post;
+        if ($post) {
+            $id = (int) $post['id'];
+            $title = $post['title'];
+            $type = (int) $post['type'];
+            if ($id) {
+                $model = static::findOne($id);
+                $model->status = 1;
+                $model->save();
+            }
+            if ($title) {
+                $model = new \sintret\todolist\models\ToDoList();
+                $model->title = $title;
+                $model->userId = Yii::$app->user->id;
+                $model->save();
+            }
+        }
+        return $model->data($type);
+    }
+
     public function data($status = 0) {
-        $output .='';
+        $output = '';
         $models = $this->records($status);
         $num = 0;
         if ($models)
@@ -85,7 +112,7 @@ class ToDoList extends \yii\db\ActiveRecord {
                 <!-- todo text -->
                 <span class="text">' . $model->title . '</span>
                 <!-- Emphasis label -->
-                <small class="label label-'.self::$labels[$num].'"><i class="fa fa-clock-o"></i>' . \kartik\helpers\Enum::timeElapsed($model->updateDate) . '</small>
+                <small class="label label-' . self::$labels[$num] . '"><i class="fa fa-clock-o"></i>' . \kartik\helpers\Enum::timeElapsed($model->createDate) . '</small>
                 <!-- General tools such as edit or delete-->
                 <div class="tools">
                     <i class="fa fa-edit"></i>

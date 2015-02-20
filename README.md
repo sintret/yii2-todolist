@@ -11,6 +11,7 @@ CREATE TABLE `todolist` (
   `title` varchar(255) DEFAULT NULL,
   `status` tinyint(1) DEFAULT '0',
   `params` text,
+  `createDate` datetime DEFAULT NULL,
   `updateDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
@@ -20,8 +21,7 @@ in your view , you have to set url and relations for User like this following co
 
 <pre>
 <?= \sintret\todolist\ListView::widget([
-            'url' => \yii\helpers\Url::to(['/ajax/todolist']),
-            'relations' => app\models\User::className(),
+            'url' => \yii\helpers\Url::to(['/ajax/todolist'])
         ]);
         ?>
 </pre>
@@ -31,25 +31,10 @@ in controllers :
 
 <pre>
 public function actionTodolist() {
-        $id = (int)$_POST['id'];
-        $title = $_POST['title'];
-        $type = (int)$_POST['type'];
-        if ($id) {
-            $model = \sintret\todolist\models\ToDoList::findOne($id);
-            $model->status = 1;
-            $model->save();
-        }
-        if ($title) {
-            $model = new \sintret\todolist\models\ToDoList();
-            $model->title = $title;
-            $model->userId = Yii::$app->user->id;
-            if ($model->save()) {
-                echo $model->data();
-            }
-        }
-        if(isset($_POST['type'])){
-            $model = new \sintret\todolist\models\ToDoList();
-            echo $model->data($type);
+        if(isset($_POST)){
+            $model = new \sintret\todolist\models();
+            $model->post = $_POST;
+            echo $model->send();
         }
         
     }

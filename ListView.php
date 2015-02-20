@@ -31,10 +31,8 @@ class ListView extends Widget {
     public $relations;
 
     public function init() {
-        if (isset($this->relations)) {
-            $this->model = new ToDoList();
-            $this->model->relations = $this->relations;
-        }
+        $this->model = new ToDoList();
+        $this->model->relations = Yii::$app->getUser()->identityClass;
         parent::init();
     }
 
