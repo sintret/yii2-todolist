@@ -75,9 +75,9 @@ class ToDoList extends \yii\db\ActiveRecord {
     public function send() {
         $post = $this->post;
         if ($post) {
-            $id = (int) $post['id'];
+            $id = (isset($post['id'])) ? (int) $post['id'] : null;
+            $type = (isset($post['type'])) ? (int) $post['type'] : 0;
             $title = $post['title'];
-            $type = (int) $post['type'];
             if ($id) {
                 $model = static::findOne($id);
                 $model->status = 1;
